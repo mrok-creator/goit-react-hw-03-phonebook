@@ -18,6 +18,24 @@ class PhoneBook extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const data = localStorage.getItem('contacts');
+    const contacts = JSON.parse(data);
+
+    if (contacts?.length) {
+      this.setState({
+        contacts,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
   // ? add contacts to state with input value
   addContacts = data => {
     // error due to duplicated contacts
